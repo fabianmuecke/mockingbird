@@ -5,13 +5,12 @@ import class Foundation.ProcessInfo
 /// The manifest is split into several sub-packages based on build type. It's a slight hack, but
 /// does offer a few advantages until SPM evolves, such as no package dependencies when consuming
 /// just the framework product, target-specific platform requirements, and SwiftUI compatibility.
-let package: Package
-if ProcessInfo.processInfo.environment["MKB_BUILD_EXECUTABLES"] != "1" {
+let package: Package =
   // MARK: Framework
-  package = Package(
+  Package(
     name: "Mockingbird",
     platforms: [
-      .macOS(.v10_10),
+      .macOS(.v10_15),
       .iOS(.v9),
       .tvOS(.v9),
       .watchOS("7.4"),
@@ -40,9 +39,9 @@ if ProcessInfo.processInfo.environment["MKB_BUILD_EXECUTABLES"] != "1" {
         cSettings: [.headerSearchPath("include"), .define("MKB_SWIFTPM")]),
     ]
   )
-} else {
+if ProcessInfo.processInfo.environment["MKB_BUILD_EXECUTABLES"] == "1" {
   // MARK: Executables
-  package = Package(
+  package.merge(with: Package(
     name: "Mockingbird",
     platforms: [
       .macOS(.v10_15),
@@ -103,5 +102,20 @@ if ProcessInfo.processInfo.environment["MKB_BUILD_EXECUTABLES"] != "1" {
         name: "MockingbirdAutomationTests",
         dependencies: ["MockingbirdAutomation"]),
     ]
-  )
+  ))
+}
+
+extension Package {
+    func merge(with other: Package) {
+        if let platforms = self.platforms {
+            if let other = other.platforms {
+                self.platforms = platforms + other
+            }
+        } else {
+            self.platforms = other.platforms
+        }
+        self.dependencies += other.dependencies
+        self.products += other.products
+        self.targets += other.targets
+    }
 }
