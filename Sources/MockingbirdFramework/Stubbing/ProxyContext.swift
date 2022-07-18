@@ -1,4 +1,5 @@
 import Foundation
+import MockingbirdCommon
 
 /// Stores potential targets that can handle forwarded invocations from mocked calls.
 @objc(MKBProxyContext) public class ProxyContext: NSObject {

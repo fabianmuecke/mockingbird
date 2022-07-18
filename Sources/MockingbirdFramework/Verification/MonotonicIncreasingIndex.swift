@@ -1,4 +1,5 @@
 import Foundation
+import MockingbirdCommon
 
 private let index = Synchronized<UInt>(0)
 

@@ -1,4 +1,5 @@
 import Foundation
+import MockingbirdCommon
 import XCTest
 
 /// Stores stubbed implementations used by mocks.

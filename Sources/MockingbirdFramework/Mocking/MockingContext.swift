@@ -1,4 +1,5 @@
 import Foundation
+import MockingbirdCommon
 
 /// Stores invocations received by mocks.
 @objc(MKBMockingContext) public class MockingContext: NSObject {

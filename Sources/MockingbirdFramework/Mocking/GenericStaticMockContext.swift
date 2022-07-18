@@ -1,4 +1,5 @@
 import Foundation
+import MockingbirdCommon
 
 /// Resolves runtime generic type names to a `StaticMock` instance.
 ///
